@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "deliverycore.fullname" . }}
+  labels:
+    {{- include "deliverycore.labels" . | nindent 4 }}
+data:
+  {{- range $key, $value := .Values.deliverycore.configEnvs }}
+  {{ $key }}: {{ $value | quote }}
+  {{- end }}

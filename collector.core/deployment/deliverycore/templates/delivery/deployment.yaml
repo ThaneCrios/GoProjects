@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "deliverycore.fullname" . }}
+  labels:
+    {{- include "deliverycore.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.deliverycore.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "deliverycore.selector" . | nindent 6 }}
+  minReadySeconds: 15
+  template:
+    metadata:
+      labels:
+        {{- include "deliverycore.labels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/delivery/configmap.yaml") . | sha256sum }}
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      containers:
+        - name: deliverycore
+          image: "{{ .Values.deliverycore.image.repository }}:{{ .Values.deliverycore.image.tag }}"
+          imagePullPolicy: {{ .Values.deliverycore.image.pullPolicy }}
+          env:
+            {{- range $ref := .Values.deliverycore.secretRefs }}
+            - name: {{ $ref.env }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $ref.secretName }}
+                  key: {{ $ref.secretKey }}
+            {{- end }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "deliverycore.fullname" . }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 10
+            httpGet:
+              port: 8080
+              path: /health/alive
+          readinessProbe:
+            timeoutSeconds: 3
+            httpGet:
+              port: 8080
+              path: /health/ready
+          resources:
+            {{- toYaml .Values.deliverycore.resources | nindent 12 }}
+{{/*          TODO: use alpine image an uncomment */}}
+{{/*          lifecycle:*/}}
+{{/*            preStop:*/}}
+{{/*              exec:*/}}
+{{/*                command: ["/bin/sleep", "5"]*/}}
+          volumeMounts: []
+      volumes: []

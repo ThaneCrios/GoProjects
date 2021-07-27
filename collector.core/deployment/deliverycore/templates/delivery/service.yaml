@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "deliverycore.fullname" . }}
+  labels:
+    {{- include "deliverycore.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.deliverycore.service.type }}
+  ports:
+    - port: {{ .Values.deliverycore.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "deliverycore.selector" . | nindent 4 }}

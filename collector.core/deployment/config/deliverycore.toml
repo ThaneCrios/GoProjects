@@ -1,0 +1,16 @@
+[Application]
+port = "3003"
+TimeZone = "Europe/Moscow"
+LogLevel = "debug"
+
+[Database]
+Host = "78.110.156.74"
+User = "postgres"
+Password = "root"
+Port = 6001
+Db = "deliveryDebug"
+
+
+[Broker]
+UserURL = "78.110.156.74:6004"
+UserCredits = "barmen:kfclover97"
