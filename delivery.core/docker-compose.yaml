@@ -1,0 +1,17 @@
+version: "3.2"
+services:
+  delivery:
+    image: "registry.gitlab.com/faemproject/backend/delivery/delivery.core"
+    ports:
+      - "3005:3005"
+    network_mode: host
+    environment:
+      DELIVERY_APPLICATION_PORT: "3005"
+      DELIVERY_APPLICATION_LOGLEVEL: "debug"
+      DELIVERY_DATABASE_HOST: "localhost"
+      DELIVERY_DATABASE_USER: "postgres"
+      DELIVERY_DATABASE_PORT: "6001"
+      DELIVERY_DATABASE_PASSWORD: "root"
+      DELIVERY_DATABASE_DB: "deliveryDebug"
+      DELIVERY_BROKER_USERURL: "localhost:6004"
+      DELIVERY_BROKER_USERCREDITS: "barmen:kfclover97"

@@ -1,0 +1,31 @@
+# Values for "stage01" environment.
+
+deliverycore:
+  ingress:
+    enabled: true
+    hosts:
+      - host: delivery-core.apis.stage.faem.pro
+        paths: ["/"]
+
+  configEnvs:
+    DELIVERY_DATABASE_HOST: 35.228.139.234
+    DELIVERY_DATABASE_PORT: 5432
+    DELIVERY_DATABASE_DB: delivery
+    DELIVERY_BROKER_USERURL: rabbitmq.faem.svc.cluster.local:5672
+    DELIVERY_BROKER_EXCHAGEPREFIX: ""
+    DELIVERY_BROKER_EXCHAGEPOSTFIX: ""
+    DELIVERY_APPLICATION_PORT: "8080"
+    DELIVERY_APPLICATION_LOGFORMAT: "json"
+    DELIVERY_CLOUDSTORAGE_PROJECTID: "faem-staging-01"
+    DELIVERY_CLOUDSTORAGE_BUCKETNAME: "faem-staging-images-storage"
+
+  secretRefs:
+    - env: DELIVERY_DATABASE_USER
+      secretName: deliverycore-settings
+      secretKey: postgres-user
+    - env: DELIVERY_DATABASE_PASSWORD
+      secretName: deliverycore-settings
+      secretKey: postgres-password
+    - env: DELIVERY_BROKER_USERCREDITS
+      secretName: deliverycore-settings
+      secretKey: rabbitmq-user-credentials
