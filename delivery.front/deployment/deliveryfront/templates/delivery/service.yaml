@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "deliveryfront.fullname" . }}
+  labels:
+    {{- include "deliveryfront.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.deliveryfront.service.type }}
+  ports:
+    - port: {{ .Values.deliveryfront.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "deliveryfront.selector" . | nindent 4 }}

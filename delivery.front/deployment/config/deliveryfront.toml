@@ -1,0 +1,17 @@
+[Application]
+# Port = "3011"
+# LogLevel = "debug"
+
+[Database]
+# Host = ""
+# User = ""
+# Password = ""
+# Port = 
+# Db = "deliveryDebug"
+
+[Broker]
+# UserURL = """
+# UserCredits = ""
+
+[Services]
+# Delivery = "http://localhost:1400/api/v3"

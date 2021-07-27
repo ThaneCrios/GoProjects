@@ -1,0 +1,19 @@
+[Application]
+port = "1401"
+TimeZone = "Europe/Moscow"
+LogLevel = "debug"
+
+[Database]
+Host = "78.110.156.74"
+User = "postgres"
+Password = "root"
+Port = 6001
+Db = "deliveryDebug"
+
+
+[Broker]
+UserURL = "78.110.156.74:6004"
+UserCredits = "barmen:kfclover97"
+
+[Services]
+Delivery = "http://localhost:1400/api/v3"

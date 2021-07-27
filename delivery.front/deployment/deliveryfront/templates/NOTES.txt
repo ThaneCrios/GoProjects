@@ -1,0 +1,9 @@
+You're in the know, right?
+
+{{- if .Values.deliveryfront.ingress.enabled }}
+{{- range $host := .Values.deliveryfront.ingress.hosts }}
+  {{- range .paths }}
+  http{{ if $.Values.deliveryfront.ingress.tls }}s{{ end }}://{{ $host.host }}{{ . }}
+  {{- end }}
+{{- end }}
+{{- end }}
